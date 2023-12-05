@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] float movementSpeed = 6f;
+    [SerializeField] float strafeSpeed = 20f;  
     [SerializeField] float jumpHeight = 5f;
 
     [SerializeField] Transform groundCheck;
@@ -22,10 +23,15 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        //float horizontalInput = Input.GetAxis("Horizontal");
+        //float verticalInput = Input.GetAxis("Vertical");
 
-        rb.velocity = new Vector3(horizontalInput * movementSpeed, rb.velocity.y, verticalInput * movementSpeed);
+        //rb.velocity = new Vector3(horizontalInput * movementSpeed, rb.velocity.y, verticalInput * movementSpeed);
+
+        float forwardMovement = movementSpeed;
+        float strafeMovement = Input.GetAxis("Horizontal") * strafeSpeed;
+
+        rb.velocity = new Vector3(strafeMovement, rb.velocity.y, forwardMovement);
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
