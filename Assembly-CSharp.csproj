@@ -66,8 +66,9 @@
     <Compile Include="Assets\Scripts\EndMenu.cs" />
     <Compile Include="Assets\Scripts\PlayerLife.cs" />
     <Compile Include="Assets\Scripts\StartMenu.cs" />
-    <Compile Include="Assets\Scripts\Rotate.cs" />
     <Compile Include="Assets\Scripts\GrapplingHook.cs" />
+    <Compile Include="Assets\Scripts\Rotate.cs" />
+    <Compile Include="Assets\Scripts\Swingshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -356,6 +356,7 @@
 "Assets/Scripts/Rotate.cs"
 "Assets/Scripts/StartMenu.cs"
 "Assets/Scripts/StickyPlatforrm.cs"
+"Assets/Scripts/Swingshot.cs"
 "Assets/Scripts/WaypointFollower.cs"
 -langversion:9.0
 
