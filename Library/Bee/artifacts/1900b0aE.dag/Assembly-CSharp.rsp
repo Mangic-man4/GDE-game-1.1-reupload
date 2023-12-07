@@ -358,6 +358,10 @@
 "Assets/Scripts/StickyPlatforrm.cs"
 "Assets/Scripts/Swingshot.cs"
 "Assets/Scripts/WaypointFollower.cs"
+"Assets/Store assets/Barrier Pack/Scripts/ContrastStretch.cs"
+"Assets/Store assets/Barrier Pack/Scripts/GlobalFog.cs"
+"Assets/Store assets/Barrier Pack/Scripts/PostEffectsBase.cs"
+"Assets/Store assets/Lava_Flowing_Shader/Scripts/ScrollingUVs_Layers.cs"
 -langversion:9.0
 
 /deterministic

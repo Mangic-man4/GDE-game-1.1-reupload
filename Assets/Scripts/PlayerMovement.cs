@@ -22,15 +22,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        //float horizontalInput = Input.GetAxis("Horizontal");
+       // float verticalInput = Input.GetAxis("Vertical");
 
-        rb.velocity = new Vector3(horizontalInput * movementSpeed, rb.velocity.y, verticalInput * movementSpeed);
+       // rb.velocity = new Vector3(horizontalInput * movementSpeed, rb.velocity.y, verticalInput * movementSpeed);
 
-       // float forwardMovement = movementSpeed;
-       // float strafeMovement = Input.GetAxis("Horizontal") * strafeSpeed;
+       float forwardMovement = movementSpeed;
+       float strafeMovement = Input.GetAxis("Horizontal") * strafeSpeed;
 
-       // rb.velocity = new Vector3(strafeMovement, rb.velocity.y, forwardMovement);
+       rb.velocity = new Vector3(strafeMovement, rb.velocity.y, forwardMovement);
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {

@@ -17,8 +17,18 @@ public class ItemCollector : MonoBehaviour
         {
             Destroy(other.gameObject);
             coins++;
-            coinsText.text = "Coins: " + coins;
-            collectionSound.Play();
+
+            // Check if coinsText is not null before trying to access its properties
+            if (coinsText != null)
+            {
+                coinsText.text = "Coins: " + coins;
+            }
+
+            if (collectionSound != null)
+            {
+                collectionSound.Play();
+            }
         }
     }
+
 }
