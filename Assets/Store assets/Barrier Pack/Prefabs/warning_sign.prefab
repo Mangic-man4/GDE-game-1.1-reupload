@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6589296}
   m_Layer: 0
   m_Name: warning_sign
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -46,8 +46,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0968826, y: 0.26840675, z: 1.9891384}
-  m_Center: {x: 0.08760529, y: 0.13371474, z: -0.0005598329}
+  m_Size: {x: 0.4610006, y: 0.26840675, z: 1.9891384}
+  m_Center: {x: 0.115577, y: 0.13371474, z: -0.0005598068}
 --- !u!65 &6589296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59,8 +59,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1791138, y: 1.7833648, z: 2.2228017}
-  m_Center: {x: 0.074748054, y: 1.1594934, z: -0.0022383295}
+  m_Size: {x: 0.1791138, y: 1.5853063, z: 2.2228017}
+  m_Center: {x: 0.074748054, y: 1.0604644, z: -0.0022382736}
 --- !u!1 &163896
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 2387516}
   m_Layer: 0
   m_Name: model
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

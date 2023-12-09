@@ -14,16 +14,19 @@ public class Swingshot : MonoBehaviour
     private LineRenderer lineRenderer;
     private float currentSwingTime;
     private float lastShootTime;
+    //public AudioClip shootSound;
 
     [SerializeField]
     private LayerMask hookableLayers;
-
+    [SerializeField]
+    private AudioSource shootSound;
 
 
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
+
     }
 
     void Update()
@@ -111,6 +114,8 @@ public class Swingshot : MonoBehaviour
 
             isSwinging = true;
             currentSwingTime = 0f;
+
+            shootSound.Play();
         }
     }
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 64390314123442690}
   m_Layer: 0
   m_Name: Collider 2
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 64262842550120390}
   m_Layer: 0
   m_Name: Collider 1
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 4212771881742316}
   m_Layer: 0
   m_Name: ConcreteTubes
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 64287176115221402}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 483972}
   - component: {fileID: 3398164}
   - component: {fileID: 2305928}
+  - component: {fileID: -4795182595184002919}
   m_Layer: 0
   m_Name: Barrels(2)
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &-4795182595184002919
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113298}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 53.812355
+  m_Height: 164.5299
+  m_Direction: 2
+  m_Center: {x: -0.4222307, y: -0.0000000029758662, z: 81.07622}

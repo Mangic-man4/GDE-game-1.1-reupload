@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2381478}
   m_Layer: 0
   m_Name: model
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6541634}
   m_Layer: 0
   m_Name: big_cone_orange
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -128,8 +128,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.933596, y: 1.3577733, z: 0.94367313}
-  m_Center: {x: -0.004899502, y: 0.6804414, z: -0.02912581}
+  m_Size: {x: 0.933596, y: 1.2381349, z: 0.94367313}
+  m_Center: {x: -0.004899502, y: 0.62062216, z: -0.02912581}
 --- !u!1 &8282248826762346484
 GameObject:
   m_ObjectHideFlags: 0

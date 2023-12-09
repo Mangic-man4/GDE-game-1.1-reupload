@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6581174}
   m_Layer: 0
   m_Name: cone_orange
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -57,9 +57,12 @@ GameObject:
   - component: {fileID: 431480}
   - component: {fileID: 3303440}
   - component: {fileID: 2381162}
+  - component: {fileID: 7772442644668278484}
+  - component: {fileID: 5269742384380890768}
+  - component: {fileID: 3209763169644264199}
   m_Layer: 0
   m_Name: model
-  m_TagString: Untagged
+  m_TagString: Enemy Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -129,3 +132,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7772442644668278484
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182240}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.39519048, y: 0.2857066, z: 0.39797878}
+  m_Center: {x: -0.0010685921, y: 0.1428533, z: -0.0010972023}
+--- !u!65 &5269742384380890768
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182240}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.29682183, y: 0.28301024, z: 0.29368746}
+  m_Center: {x: -0.0014792681, y: 0.43060678, z: -0.0020544305}
+--- !u!65 &3209763169644264199
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182240}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.18293285, y: 0.2573371, z: 0.19705017}
+  m_Center: {x: 0.0013260841, y: 0.6992109, z: -0.00043352693}
