@@ -1,0 +1,653 @@
+// ==================================================
+// File: Assets/Scripts/EndMenu.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class EndMenu : MonoBehaviour
+{
+    public void GameMenu()
+    {
+        SceneManager.LoadScene("Start Screen 1");
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/EndQuit.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EndQuit : MonoBehaviour
+{
+    public void QuitGame()
+    {
+        Application.Quit(); 
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/EndRestart.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class EndRestart : MonoBehaviour
+{
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("Level");
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/Finish.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Threading;
+
+public class Finish : MonoBehaviour
+{
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "Player")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); //Next level or finish
+        }
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/GrapplingHook.cs
+// ==================================================
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class GrapplingHook : MonoBehaviour
+{
+    private Camera playerCamera;
+    private float maxDistance = 10f;
+    private Vector3 grapplingHookPosition;
+    private bool isGrappling = false;
+    private LineRenderer lineRenderer;
+    private GameObject player;
+    // private Rigidbody playerRigidbody;
+    private CharacterController characterController;
+    public float swingForce = 5f; // Adjust this value based on your game's feel
+    public float releaseDistance = 0.5f;
+    private Vector3 detachedPosition;
+
+
+    void Start()
+    {
+        // Initialize necessary components
+        playerCamera = Camera.main;
+        lineRenderer = GetComponent<LineRenderer>();
+        player = GameObject.FindWithTag("Player"); // Replace "Player" with your player tag
+        // playerRigidbody = player.GetComponent<Rigidbody>();
+        characterController = player.GetComponent<CharacterController>();
+        lineRenderer.enabled = false;
+    }
+
+    void FixedUpdate()
+    {
+        //Debug.Log("FixedUpdate called");
+
+        if (Input.GetButton("Fire1"))
+        {
+            FireGrapplingHook();
+        }
+
+        if (isGrappling)
+        {
+            // Code for swinging logic
+            Swing();
+
+            if (Input.GetButtonUp("Fire1") || Vector3.Distance(player.transform.position, grapplingHookPosition) < releaseDistance)
+            {
+                ReleaseGrapplingHook();
+            }
+        }
+    }
+
+    void FireGrapplingHook()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, maxDistance))
+        {
+            Debug.Log("Hit object: " + hit.collider.gameObject.name); 
+
+            if (hit.collider.CompareTag("GrapplingNode"))
+            {
+                float distanceToHook = Vector3.Distance(player.transform.position, hit.point);
+                if (distanceToHook <= maxDistance)
+                {
+                    ConnectGrapplingHook(hit.point);
+                }
+            }
+        }
+    }
+
+    void ConnectGrapplingHook(Vector3 targetPoint)
+    {
+        grapplingHookPosition = targetPoint;
+
+        // Additional code for grappling hook connection logic
+
+        // Set player position to the stored detached position
+        player.transform.position = detachedPosition;
+
+        // Enable grappling after setting the position
+        isGrappling = true;
+
+        // Update the line renderer positions
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, player.transform.position);
+        lineRenderer.SetPosition(1, targetPoint);
+    }
+
+    void Swing()
+    {
+        Vector3 playerToHook = (grapplingHookPosition - player.transform.position).normalized;
+
+        // Ensure the player is not directly above the hook point to avoid shooting backward
+        if (Vector3.Dot(playerToHook, Vector3.up) < 0.95f)
+        {
+            // Calculate a force directed downward
+            Vector3 downwardForce = Vector3.ProjectOnPlane(Vector3.down, playerToHook).normalized;
+
+            // Adjust player position based on swinging motion using CharacterController
+            characterController.Move(downwardForce * swingForce * Time.fixedDeltaTime);
+        }
+
+        // Adjust player position and rotation based on swinging motion
+        // Example using a Rigidbody (you may need to adjust force values):
+        // playerRigidbody.AddForce(playerToHook * swingForce, ForceMode.Force);
+
+        // Example using a CharacterController:
+        // characterController.Move(playerToHook * swingForce * Time.deltaTime);
+
+        // Debug.DrawRay(player.transform.position, playerToHook * swingForce, Color.red);
+
+    }
+
+    void ReleaseGrapplingHook()
+    {
+        isGrappling = false;
+        lineRenderer.enabled = false;
+
+        // Store the position when detaching only if not already grappling
+        if (!isGrappling)
+        {
+            detachedPosition = player.transform.position;
+        }
+
+        // Additional code for releasing the grappling hook
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/ItemCollector.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ItemCollector : MonoBehaviour
+{
+    int coins = 0;
+
+    [SerializeField] Text coinsText;
+
+    [SerializeField] AudioSource collectionSound;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            Destroy(other.gameObject);
+            coins++;
+
+            // Check if coinsText is not null before trying to access its properties
+            if (coinsText != null)
+            {
+                coinsText.text = "Coins: " + coins;
+            }
+
+            if (collectionSound != null)
+            {
+                collectionSound.Play();
+            }
+        }
+    }
+
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/PlayerLife.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class PlayerLife : MonoBehaviour
+{
+    [SerializeField] AudioSource deathSound;
+    bool dead = false;
+
+    private void Update()
+    {
+        if (transform.position.y < -4f && !dead)
+        {
+            Die();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy Body"))
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<PlayerMovement>().enabled = false;
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Invoke(nameof(ReloadLevel), 1.3f);
+        dead = true;
+        deathSound.Play();
+    }
+
+    void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/PlayerMovement.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    Rigidbody rb;
+    [SerializeField] float movementSpeed = 6f;
+    [SerializeField] float strafeSpeed = 20f;  
+    [SerializeField] float jumpHeight = 5f;
+
+    [SerializeField] Transform groundCheck;
+    [SerializeField] LayerMask ground;
+
+    [SerializeField] AudioSource jumpSound;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        //float horizontalInput = Input.GetAxis("Horizontal");
+       // float verticalInput = Input.GetAxis("Vertical");
+
+       // rb.velocity = new Vector3(horizontalInput * movementSpeed, rb.velocity.y, verticalInput * movementSpeed);
+
+       float forwardMovement = movementSpeed;
+       float strafeMovement = Input.GetAxis("Horizontal") * strafeSpeed;
+
+       rb.velocity = new Vector3(strafeMovement, rb.velocity.y, forwardMovement);
+
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            Jump();
+        }
+    }
+
+    void Jump()
+    {
+        rb.velocity = new Vector3(rb.velocity.x, jumpHeight, rb.velocity.z);
+        jumpSound.Play();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy Head"))
+        {
+            Destroy(collision.transform.parent.gameObject);
+            Jump();
+        }
+    }
+
+    bool IsGrounded()
+    {
+        return Physics.CheckSphere(groundCheck.position, 0.1f, ground);
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/Rotate.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+
+public class Rotate : MonoBehaviour
+{
+
+    [SerializeField] float speedX;
+    [SerializeField] float speedY;
+    [SerializeField] float speedZ;
+
+
+    void Update()
+    {
+        transform.Rotate(360 * speedX * Time.deltaTime, 360 * speedY * Time.deltaTime, 360 * speedZ * Time.deltaTime);
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/StartMenu.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class StartMenu : MonoBehaviour
+{
+    public void StartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/StickyPlatforrm.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class StickyPlatforrm : MonoBehaviour
+{
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            collision.gameObject.transform.SetParent(transform);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+       if (collision.gameObject.name == "Player")
+        {
+            collision.gameObject.transform.SetParent(null);
+        } 
+    }
+}
+
+
+
+
+// ==================================================
+// File: Assets/Scripts/Swingshot.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Swingshot : MonoBehaviour
+{
+    public float hookRange = 10f;
+    public float shootCooldown = 1f;
+    public float maxSwingDuration = 5f;
+
+    private bool isSwinging = false;
+    private Vector3 hookPoint;
+    private SpringJoint joint;
+    private LineRenderer lineRenderer;
+    private float currentSwingTime;
+    private float lastShootTime;
+    //public AudioClip shootSound;
+
+    [SerializeField]
+    private LayerMask hookableLayers;
+    [SerializeField]
+    private AudioSource shootSound;
+
+
+    void Start()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.enabled = false;
+
+    }
+
+    void Update()
+    {
+        /*
+        if (Input.GetMouseButtonDown(0) && Time.time - lastShootTime > shootCooldown)
+        {
+            UpdateLineRenderer();
+            ShootHook();
+            lastShootTime = Time.time;
+        }
+        */
+        /*
+
+        if (Input.GetMouseButtonDown(0)) // Assuming left mouse button for shooting
+        {
+            if (!isSwinging)
+                ShootHook();
+            else
+                ReleaseHook();
+        }
+        */
+        /*
+        if (isSwinging)
+        {
+            HandleSwinging();
+            UpdateLineRenderer();
+        }
+
+
+
+        */
+
+        if (isSwinging)
+        {
+            currentSwingTime += Time.deltaTime;
+
+            if (currentSwingTime >= maxSwingDuration)
+            {
+                ReleaseHook();
+                return;
+            }
+
+            UpdateLineRenderer();
+        }
+        else if (Input.GetMouseButtonDown(0) && Time.time - lastShootTime > shootCooldown)
+        {
+            ShootHook();
+            lastShootTime = Time.time;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ReleaseHook();
+        }
+    }
+    private void FixedUpdate()
+    {
+        Vector3 targetPosition = transform.position - transform.forward * 5f + Vector3.up * 2f; // Adjust as needed
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, Time.deltaTime * 5f);
+        Camera.main.transform.LookAt(transform.position);
+    }
+
+    void ShootHook()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        // Enlarge the cast radius for more forgiving detection
+        float castRadius = 5f;
+
+        if (Physics.SphereCast(ray, castRadius, out hit, hookRange, hookableLayers))
+        {
+            hookPoint = hit.point;
+            joint = gameObject.AddComponent<SpringJoint>();
+            joint.autoConfigureConnectedAnchor = false;
+            joint.connectedAnchor = hookPoint;
+
+            float distance = Vector3.Distance(transform.position, hookPoint);
+
+            // Adjust spring settings based on your preference
+            joint.spring = 4.5f;
+            joint.damper = 7f;
+            joint.maxDistance = distance * 0.8f;
+
+            isSwinging = true;
+            currentSwingTime = 0f;
+
+            shootSound.Play();
+        }
+    }
+
+    void ReleaseHook()
+    {
+        isSwinging = false;
+        Destroy(joint);
+        lineRenderer.enabled = false;
+    }
+
+    void HandleSwinging()
+    {
+        Vector3 playerToHookDirection = (hookPoint - transform.position).normalized;
+        Vector3 perpendicularDirection = Vector3.Cross(playerToHookDirection, Vector3.up);
+        Vector3 forceDirection = Vector3.Cross(perpendicularDirection, playerToHookDirection);
+
+        // Apply a force to simulate swinging
+        float swingForce = 5f;
+        GetComponent<Rigidbody>().AddForce(forceDirection * swingForce, ForceMode.Acceleration);
+
+        // You may also want to limit the swing speed for a better feel
+        float maxSwingSpeed = 10f;
+        GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(GetComponent<Rigidbody>().velocity, maxSwingSpeed);
+
+        float maxSwingDistance = 20f;
+        if (Vector3.Distance(transform.position, hookPoint) > maxSwingDistance)
+        {
+            ReleaseHook();
+            return;
+        }
+    }
+    void UpdateLineRenderer()
+    {
+        // Update the LineRenderer positions to visualize the swingshot trajectory
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(1, hookPoint);
+    }
+
+}
+
+
+
+// ==================================================
+// File: Assets/Scripts/WaypointFollower.cs
+// ==================================================
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WaypointFollower : MonoBehaviour
+{
+    [SerializeField] GameObject[] waypoints;
+    int currentWaypointIndex = 0;
+
+    [SerializeField] float speed = 1f;
+
+    void Update()
+    {
+        if (Vector3.Distance(transform.position, waypoints[currentWaypointIndex].transform.position) < .1f)
+        {
+            currentWaypointIndex++;
+            if (currentWaypointIndex >= waypoints.Length)
+            {
+                currentWaypointIndex = 0;
+            }
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
+    }
+}
+
+
+
+

@@ -81,6 +81,7 @@
   <ItemGroup>
     <None Include="Assets\Store assets\Barrels\StandardDoubleSided.shader" />
     <None Include="Assets\Store assets\Barrier Pack\Shaders\GlobalFog.shader" />
+    <None Include="Assets\AllScriptsBundle.txt" />
     <None Include="Assets\Store assets\Lava_Flowing_Shader\Shaders\Diffuse_Lava_Distort.shader" />
     <None Include="Assets\Store assets\Barrier Pack\Shaders\Contrast Stretch\Apply.shader" />
     <None Include="Assets\Store assets\Barrier Pack\Shaders\Contrast Stretch\Adaptation.shader" />
